@@ -1,0 +1,121 @@
+﻿@model IEnumerable<proVue.Automovil>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h2>Automoviles</h2>
+<style>
+    .delete {
+        z-index: 1; 
+        cursor: pointer;
+        font-size: 30px;
+    }
+</style>
+<p>
+    <a href="@Url.Action("Create","Automoviles")" class="z-depth-5"><i class="fas fa-plus-circle" style="font-size: 30px;"></i></a>
+</p>
+
+<div id="main">
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr style="z-index: -1">
+            <th>
+                Marca
+            </th>
+            <th>
+                Modelo
+            </th>
+            <th>
+                Año de Fabricacion
+            </th>
+            <th>
+                Tipo
+            </th>
+            <th>
+                Cantidad de Pasajeros
+            </th>
+            <th>
+                Tipo de Transmision
+            </th>
+            <th>
+                Precio
+            </th>
+            <th>
+                Tipo de Moneda
+            </th>
+        </tr>
+        </thead>
+        <tr v-for="item in respuesta" v-on:click="if(this.call==true){details(item.ID_Auto)}" style="z-index: -1;">
+                <th>{{item.Marca}}</th>
+                <th>{{item.Modelo}}</th>
+                <th>{{item.Año_Fabricacion}}</th>
+                <th>{{item.Tipo}}</th>
+                <th>{{item.CantPasajeros}}</th>
+                <th>{{item.TipoTrans}}</th>
+                <th>{{item.Precio}}</th>
+            <th>{{item.Tipo_Moneda}}</th>
+            <th><a class="delete" v-on:click="deletee(item.ID_Auto,respuesta)"><i class="fas fa-times"></i></a></th>
+            </tr>
+</table>
+</div>
+
+
+
+<script>
+    var vm = new Vue({
+        el: "#main",
+
+        data: {
+            respuesta: [],
+            id: '',
+            call: true
+        },
+        computed: {
+        },
+        methods: {
+            getAutos: function() {
+                axios.get('@Url.Action("Autos","Automoviles")')
+                    .then((response) => {
+                        this.respuesta = response.data;
+                        //console.log(response.data);
+                        console.log(this.respuesta);
+                    })
+                    .catch(function(error) {
+                        alert("No succed");
+                        console.log(error);
+                    });
+            },
+            details(id) {
+                    var url = "/Automoviles/Details/";
+                    window.location.href = url + id;
+                
+            },
+            deletee:(id, autos) => {
+                var counter=0;
+                autos.forEach(function (auto) {
+                    if (auto.ID_Auto == id) {
+                        vm.respuesta.splice(counter, 1);
+                        axios.post('Automoviles/Delete/' + id).then((response) => {
+                            this.call = false;
+                            console.log(response);
+                            this.call = true;
+                        }).catch(function (error) {
+                            alert(id);
+                            alert('error');
+                            console.log(error);
+                        });
+                        return;
+                    }
+                        counter++;
+                    }
+                );
+                  return;
+            }
+        },
+        beforeMount() {
+            this.getAutos();
+        }
+    });
+</script>

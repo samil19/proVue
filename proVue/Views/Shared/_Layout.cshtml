@@ -7,31 +7,58 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
+    <script src="~/Scripts/vue.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vee-validate@latest/dist/vee-validate.js"></script>
+    <script src="https://unpkg.com/vee-validate@2.0.0-rc.7"></script>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href='@Url.Action("Index","Home")'>Vue Js</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="navi">
+            <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item" v-bind:class="{ active: isActive=true }">
+                        <a class="nav-link" href="@Url.Action("Index","Automoviles")" v-on:click="active=isActive">Automoviles</a>
+                    </li>
+                    <li class="nav-item" v-bind:class="{ active: isActive}">
+                        <a class="nav-link" href="@Url.Action("About", "Home")" v-on:click="active=isActive">Porque VueJS?</a>
+                    </li>
+                    <li class="nav-item" v-bind:class="{ active: isActive }">
+                        <a class="nav-link" href="@Url.Action("Contact", "Home")" v-on:click="active=isActive">Contacto</a>
+                    </li>
                 </ul>
-                @Html.Partial("_LoginPartial")
+                
             </div>
         </div>
-    </div>
-    <div class="container body-content">
+    </nav>
+
+<script>
+    Vue.prototype.isActive = 'false';
+    var vm = new Vue({
+        el: "#navi",
+        data: {
+        },
+        methods: {
+            highligh() {
+            }
+        }
+    });
+</script>
+<br/>
+    <div class="container body-content col-md-11">
         @RenderBody()
         <hr />
+    
+        <br/>
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
@@ -42,3 +69,4 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+

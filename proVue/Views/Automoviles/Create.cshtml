@@ -1,0 +1,184 @@
+﻿@model proVue.Automovil
+
+@{
+    ViewBag.Title = "Create_Vue";
+}
+<h2>Crear Automovil</h2>
+<style>
+    .hidden {
+        display: none;
+    }
+    .is-danger {
+        color: red;
+    }
+</style>
+<div id="main">
+<div style="margin: 15px;">
+    <a href="@Url.Action("Index","Automoviles")" class="z-depth-5" onmouseover="change()"><i class="fas fa-arrow-left" style="font-size: 30px;"></i></a><div id="hide" class="fadeInDown animated hidden" >Atras!</div>
+</div>
+
+    <form @@submit.prevent="validateBeforeSubmit">
+       <div class="form-row center">
+       <div class="form-group col-md-5">
+           <div>
+               <label class="label" for="marca">Marca:</label>
+               <input type="text" v-model="marca" class="form-control " v-validate="'required'" class="{'input': true, 'is-danger': errors.has('marca') }" name="marca">
+               <i v-show="errors.has('marca')" class="fa fa-warning"></i>
+               <span v-show="errors.has('marca')" class="help is-danger">{{ errors.first('marca') }}</span>
+           </div>
+           <div>
+               <label class="label" for="Modelo">Modelo:</label>
+               <input type="text" v-model="Modelo" class="form-control " name="Modelo" v-validate="'required'" class="{'input': true, 'is-danger': errors.has('marca') }">
+               <i v-show="errors.has('Modelo')" class="fa fa-warning"></i>
+               <span v-show="errors.has('Modelo')" class="help is-danger">{{ errors.first('Modelo') }}</span>
+
+           </div>
+           <div>
+               <label class="label" for="Fecha de Fabricacion">Fecha de Fabricacion:</label>
+               <input type="month" v-model="Año_Fabricacion" class="form-control " name="Fecha de Fabricacion" v-validate="'required'" class="{'input': true, 'is-danger': errors.has('Modelo') }">
+               <i v-show="errors.has('Modelo')" class="fa fa-warning"></i>
+               <span v-show="errors.has('Modelo')" class="help is-danger">{{ errors.first('Modelo') }}</span>
+           </div>
+           <div>
+               <label class="label" for="Tipo de Automovil">Tipo de Automovil:</label>
+               <select id="exampleSelect4" class="form-control" v-model="Tipo" name="Tipo de Automovil" v-validate="'required'" class="{'input': true, 'is-danger': errors.has('Tipo de Automovil') }">
+                   <option value="" disabled selected>Seleccione una opcion</option>
+                   <option value="Coupe">Coupe</option>
+                   <option value="Sedan">Sedan</option>
+                   <option value="4X4">4X4</option>
+                   <option value="Van">Van</option>
+                   <option value="SportCar">SportCar</option>
+                   <option value="Convertible">Convertible</option>
+               </select>
+               <i v-show="errors.has('Tipo de Automovil')" class="fa fa-warning"></i>
+               <span v-show="errors.has('Tipo de Automovil')" class="help is-danger">{{ errors.first('Tipo de Automovil') }}</span>
+           </div>
+
+           </div>
+
+           <div class="form-group col-md-5">
+               <div>
+                   <label class="label" for="Cantidad de Pasajeros">Cantidad de Pasajeros:</label>
+                   <select id="exampleSelect3" class="form-control" v-model="CantPasajeros" name="Cantidad de Pasajeros" v-validate="'required'" class="{'input': true, 'is-danger': errors.has('Cantidad de Pasajeros') }">
+                       <option value="" disabled selected>Seleccione una opcion</option>
+                       <option value="1">1</option>
+                       <option value="2">2</option>
+                       <option value="4">4</option>
+                       <option value="5">5</option>
+                       <option value="6">6</option>
+                       <option value="8">8</option>
+                   </select>
+                   <i v-show="errors.has('Cantidad de Pasajeros')" class="fa fa-warning"></i>
+                   <span v-show="errors.has('Cantidad de Pasajeros')" class="help is-danger">{{ errors.first('Cantidad de Pasajeros') }}</span>
+               </div>
+
+                   <div>
+                       <label class="label" for="Tipo de Transmision:">Tipo de Transmision:</label>
+                       <select id="exampleSelect1" class="form-control" v-model="TipoTrans" name="Tipo de Transmision:" v-validate="'required'" class="{'input': true, 'is-danger': errors.has('Tipo de Transmision') }">
+                           <option value="" disabled selected>Seleccione una opcion</option>
+                           <option value="Automatica">Automatica</option>
+                           <option value="Semi-Automatica">Semi-Automatica</option>
+                           <option value="Manual">Manual</option>
+                       </select>
+                       <i v-show="errors.has('Tipo de Transmision')" class="fa fa-warning"></i>
+                       <span v-show="errors.has('Tipo de Transmision')" class="help is-danger">{{ errors.first('Tipo de Transmision') }}</span>
+                   </div>
+
+                       <div>
+                           <label class="label" for="Precio">Precio:</label>
+                           <input type="number" v-model="Precio" class="form-control " min="0" name="precio" v-validate="'required'" class="{'input': true, 'is-danger': errors.has('Precio') }">
+                           <i v-show="errors.has('Precio')" class="fa fa-warning"></i>
+                           <span v-show="errors.has('Precio')" class="help is-danger">{{ errors.first('Precio') }}</span>
+                       </div>
+
+                           <div>
+                               <label class="label" for="Tipo de Moneda">Tipo de Moneda:</label>
+                               <select id="exampleSelect2" class="form-control" v-model="Tipo_Moneda" name="Tipo de Moneda" v-validate="'required'" class="{'input': true, 'is-danger': errors.has('Tipo de Moneda') }">
+                                   <option value="" disabled selected>Seleccione una opcion</option>
+                                   <option value="USD">USD</option>
+                                   <option value="EUR">EUR</option>
+                                   <option value="DOP">DOP</option>
+                               </select>
+                               <i v-show="errors.has('Tipo de Moneda')" class="fa fa-warning"></i>
+                               <span v-show="errors.has('Tipo de Moneda')" class="help is-danger">{{ errors.first('Tipo de Moneda') }}</span>
+                           </div>
+                           </div>
+       </div>
+        <br/>
+        <button v-on:click="sendViaAxios()" type="button" class="btn btn-primary">Guardar</button>
+    </form>
+
+</div>
+
+
+<script>
+    var dictionary = {
+        en: {
+            messages: {
+                required: function () {
+                    return "Este campo es necesario";
+                }
+            }
+        }
+    };
+    VeeValidate.Validator.updateDictionary(dictionary);
+    Vue.use(VeeValidate);
+    var vm = new Vue({
+        el: "#main",
+        data:
+        {
+            marca: '',
+            Modelo: '',
+            Año_Fabricacion: '',
+            Tipo: '',
+            CantPasajeros: '',
+            TipoTrans: '',
+            Precio: '',
+            Tipo_Moneda: '',
+            isActive: true
+
+        },
+
+        methods: {
+            sendViaAxios: function() {
+                var automoviles = {
+                    'marca': this.marca,
+                    'Modelo': this.Modelo,
+                    'Año_Fabricacion': this.Año_Fabricacion,
+                    'Tipo': this.Tipo,
+                    'CantPasajeros': this.CantPasajeros,
+                    'TipoTrans': this.TipoTrans,
+                    'Precio': this.Precio,
+                    'Tipo_Moneda': this.Tipo_Moneda
+                };
+                this.validateBeforeSubmit();
+                axios.post('@Url.Action("Create", "Automoviles")', automoviles)
+                    .then(function (response) {
+                        console.log(response);
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+
+            },
+            redirect() {
+                var url = "/Automoviles/Index";
+                window.location.href = url;
+            }, change() {
+                this.isActive = false;
+            },
+            validateBeforeSubmit() {
+                this.$validator.validateAll().then((result) => {
+                    if (result) {
+
+                        var url = "/Automoviles/Index";
+                        window.location.href = url;
+                        return;
+                    }
+
+                });
+            }
+            
+        }
+    });
+</script>
